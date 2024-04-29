@@ -1,0 +1,38 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet author="ldagostino" id="create-room-table">
+        <createTable tableName="room_entity">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="room_id_pk"/>
+            </column>
+            <column name="room_number" type="TEXT">
+                <constraints nullable="false" unique="true"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="ldagostino" id="create-person-table">
+        <createTable tableName="person_entity">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="person_id_pk"/>
+            </column>
+            <column name="firstname" type="TEXT">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="lastname" type="TEXT">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="ldapuser" type="TEXT">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="title" type="TEXT">
+            </column>
+            <column name="name_addition" type="TEXT">
+            </column>
+            <column name="room_id" type="UUID">
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

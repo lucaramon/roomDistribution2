@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: Api for Import Rooms with a CSV File and Access their Information
+  description: |-
+    A API that allows three operations:
+    - POST Rooms with a CSV File
+    - GET a Room by RoomNumber
+    - GET all Rooms
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/
+paths:
+  /import:
+    post:
+      summary: Posts the Room Data from the CSV File
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Data successfully saved
+
+
+  /room/{roomNumber}:
+    get:
+      summary: Returns one Room by given RoomNumber
+      parameters:
+        - $ref: "#/components/parameters/ParameterRoomNumber"
+      responses:
+        '200':
+          $ref: "#/components/responses/RoomResponse"
+        '400':
+          description: RoomNumber not valid
+        '404':
+          description: Room not found
+
+
+  /room:
+    get:
+      summary: Returns all Rooms
+      responses:
+        '200':
+          $ref: "#/components/responses/RoomListResponse"
+        '404':
+          description: No Rooms found
+
+
+components:
+  responses:
+    RoomResponse:
+      description: Room Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Room"
+
+    RoomListResponse:
+      description: All Rooms Response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Room"
+
+  schemas:
+    Room:
+      type: object
+      properties:
+        roomNumber:
+          type: string
+          example: "1234"
+          minLength: 4
+          maxLength: 4
+        persons:
+          type: array
+          items:
+            $ref: "#/components/schemas/Person"
+
+    Person:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: "Susanne"
+        lastname:
+          type: string
+          example: "Moog"
+        ldapuser:
+          type: string
+          example: "smoog"
+        title:
+          type: string
+          example: "Dr."
+        nameAddition:
+          type: string
+          example: "von"
+
+  parameters:
+    ParameterRoomNumber:
+      in: path
+      name: roomNumber
+      description: Number of a Room
+      required: true
+      schema:
+        type: string
+#        minLength: 4
+#        maxLength: 4
